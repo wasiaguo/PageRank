@@ -7,41 +7,70 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileParser {
+	private int nodeNumber;
+	private String dataPath;
+	private int[][] adjacentMatrix;
+	private int[] outdegreeVector;
 	
 	
-	public void readData(String dataPath) throws Exception{
-		int nodeNumber = 6;
-		FileReader fr = new FileReader(dataPath);
-		BufferedReader br = new BufferedReader(fr);
-		int[][] matrix = new int[nodeNumber][nodeNumber];
-		
-        while (br.ready()) {
-        	String line = br.readLine();
-        	System.out.println(line);
-        	String edge[] =line.split(",");
-        	int origin = Integer.parseInt(edge[0])-1;
-        	int terminus = Integer.parseInt(edge[1])-1;
-        	matrix[origin][terminus] =1;
-        	System.out.println(origin + "->" + terminus);
-        	
-        }
-        
-        
-        for(int row=0; row < nodeNumber ;row++) {
-        	for(int col=0; col< nodeNumber ;col++){
-        		System.out.print(matrix[row][col] +" ");
-        	}
-        	System.out.println();
-        }
-        
-        
-        fr.close();
+	public FileParser (String dataPath,int nodeNumber) {
+		this.dataPath = dataPath;
+		this.nodeNumber = nodeNumber;
 	}
 	
+	public void readData() throws Exception{
+		
+		if( DataPathIsValid() && nodeNumberIsValid() ) {	
+			FileReader fr = new FileReader(dataPath);
+			BufferedReader br = new BufferedReader(fr);
+			adjacentMatrix = new int[nodeNumber+1][nodeNumber+1];
+			outdegreeVector = new int[nodeNumber+1];		
+			
+			for(int row=0;row < nodeNumber ; row++) {
+				Arrays.fill(adjacentMatrix[row],0 );
+			}		
+			Arrays.fill(outdegreeVector, 0);
+			
+	        while (br.ready()) {
+	        	String line = br.readLine();
+	        	String edge[] =line.split(",");
+	        	int origin = Integer.parseInt(edge[0]);
+	        	int terminus = Integer.parseInt(edge[1]);
+	        	adjacentMatrix[origin][terminus] =1;
+	        	outdegreeVector[origin]=outdegreeVector[origin]+1;	        	
+	        }             
+	        fr.close();
+		}
+	}
+	
+	private boolean DataPathIsValid() {
+		return !dataPath.isEmpty();
+	}
+	
+	private boolean nodeNumberIsValid() {
+		return nodeNumber >0; 
+	}
+	
+		
+	public int[][] getadjacentMatrix() {
+		return adjacentMatrix;
+	}
+	
+	public int[] getOutdegreeVector() {
+		return outdegreeVector;
+	}
+	
+	
+
 	 public static void main(String args[]){
-		 FileParser fp = new FileParser() ;
+		 String path = "./dataset/graph_1.txt";
+		 int nodeNumber = 6;
+		 FileParser fp = new FileParser(path,nodeNumber) ;
 		 try{
-			 fp.readData("./dataset/graph_1.txt");
+			 fp.readData();
+			 int[][] array = fp.getadjacentMatrix();
+			 System.out.println(array.length);
+			 
 		 }catch(Exception e){
 			 System.out.println(e.getMessage());
 			 
