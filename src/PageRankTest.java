@@ -2,9 +2,9 @@
 public class PageRankTest {
 
 	public static void main(String[] args) {
-        int nodes= 6;
-        String dataPath = "./dataset/graph_1.txt";
-        double threshold = 0.0000001;
+        int nodes= 19;
+        String dataPath = "./dataset/association_result.txt";
+        double threshold = 0.0001;
         double d= 0.15;
         
         FileParser fp = new FileParser(dataPath,nodes);
