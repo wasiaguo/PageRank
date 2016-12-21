@@ -52,7 +52,7 @@ public class FileParser {
 	}
 	
 		
-	public int[][] getadjacentMatrix() {
+	public int[][] getAdjacentMatrix() {
 		return adjacentMatrix;
 	}
 	
@@ -60,21 +60,5 @@ public class FileParser {
 		return outdegreeVector;
 	}
 	
-	
 
-	 public static void main(String args[]){
-		 String path = "./dataset/graph_1.txt";
-		 int nodeNumber = 6;
-		 FileParser fp = new FileParser(path,nodeNumber) ;
-		 try{
-			 fp.readData();
-			 int[][] array = fp.getadjacentMatrix();
-			 System.out.println(array.length);
-			 
-		 }catch(Exception e){
-			 System.out.println(e.getMessage());
-			 
-		 }
-		 
-	 }
 }
